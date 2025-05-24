@@ -40,10 +40,12 @@ int main()
     if (gameTurn == 1) 
     {
       ComputerMove();
+      break;
     }
     else if (gameTurn == 0)
     {
       PlayerMove();
+      break;
     }
     
     int checkBoard = CheckBoard(board);
@@ -73,11 +75,11 @@ int main()
 
 void PrintBoard(char board[9])
 {
-  printf("%c | %c | %c \n", board[0], board[1], board[2]);
-  printf("---|----|---");
-  printf("%c | %c | %c \n", board[3], board[4], board[5]);
-  printf("---|----|---");
-  printf("%c | %c | %c \n", board[6], board[7], board[8]);
+  printf(" %c | %c | %c \n", board[0], board[1], board[2]);
+  printf("---|---|---\n");
+  printf(" %c | %c | %c \n", board[3], board[4], board[5]);
+  printf("---|---|---\n");
+  printf(" %c | %c | %c \n", board[6], board[7], board[8]);
 }
 
 int CheckBoard(char board[9]) 
@@ -109,10 +111,10 @@ int CheckBoard(char board[9])
 
 void ComputerMove()
 {
-
+  printf("Computer goes first.\n");
 }
 
 void PlayerMove()
 {
-
+  printf("Player goes first.\n");
 }
