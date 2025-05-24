@@ -1,0 +1,6 @@
+# vs code 
+.vscode
+
+# all exe files
+*.exe
+
