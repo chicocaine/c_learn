@@ -17,7 +17,10 @@ int main()
 
   printf("TIC TAC TOE GAME!\n");
   printf("Who will go first? [c: computer || p: player]\n");
-  scanf("%c", &firstMove);
+  if (scanf("%c", &firstMove) != 1) {
+    printf("Error reading input.\n");
+    return 1;
+  }
  
   switch (tolower(firstMove))
   {
@@ -42,14 +45,24 @@ int main()
     {
       PlayerMove();
     }
-    if (CheckBoard(board) == 1)
+    
+    int checkBoard = CheckBoard(board);
+    if (checkBoard > 0)
     {
+      if (checkBoard == 2)
+      {
+        printf("Tie!\n");
+        gameOver = 1;
+        break;
+      }
       if (gameTurn == 1)
       {
         printf("Computer Wins!\n");
+        gameOver = 1;
         break;
       }
       printf("Player Wins!\n");
+      gameOver = 1;
       break;
     }
     gameTurn = !gameTurn;
@@ -69,13 +82,28 @@ void PrintBoard(char board[9])
 
 int CheckBoard(char board[9]) 
 {
+  for (int i = 0; i < 9; i++)
+  {
+    if (board[i] == ' ') 
+    {
+      break;
+    }
+    else 
+    {
+      return 2;
+    }      
+  }
+
+  if ((board[0] == board[4] && board[4] == board[8] && board[0] != ' ') ||
+      (board[2] == board[4] && board[4] == board[6] && board[2] != ' ')) return 1;
+
   for (int i = 0; i < 3; i++ )
   {
-    if (board[3*i] == board[3*i + 1] == board[3*i + 2] ||
-        board[0 + i] == board[3 + i] == board[6 + i]      
+    if ((board[3*i] == board[3*i + 1] && board[3*i + 1] == board[3*i + 2] && board[3*i] != ' ') ||
+        (board[0 + i] == board[3 + i] && board[3 + i] == board[6 + i] && board[0 + i] != ' ')     
     ) return 1;
   }
-  if (board[0] == board[4] == board[8] || board[2] == board[4] == board [6]) return 1;
+
   return 0;
 }
 
