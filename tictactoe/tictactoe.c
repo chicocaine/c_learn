@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 void PrintBoard(char board[9]);
 int CheckBoard(char board[9]);
-void ComputerMove();
-void PlayerMove();
+void ComputerMove(char board[9], char playChar);
+void PlayerMove(char board[9], char playChar);
 
 int main()
 {
   int gameTurn = 0;  
   int gameOver = 0;
+  char playChar = 'X';
   char board[9] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
 
   char firstMove;
@@ -39,13 +41,11 @@ int main()
     PrintBoard(board);
     if (gameTurn == 1) 
     {
-      ComputerMove();
-      break;
+      ComputerMove(board, playChar);
     }
     else if (gameTurn == 0)
     {
-      PlayerMove();
-      break;
+      PlayerMove(board, playChar);
     }
     
     int checkBoard = CheckBoard(board);
@@ -67,6 +67,7 @@ int main()
       gameOver = 1;
       break;
     }
+    playChar = playChar == 'X' ? 'O' : 'X';
     gameTurn = !gameTurn;
   }
   
@@ -90,10 +91,10 @@ int CheckBoard(char board[9])
     {
       break;
     }
-    else 
+    else if (i == 8)
     {
       return 2;
-    }      
+    }
   }
 
   if ((board[0] == board[4] && board[4] == board[8] && board[0] != ' ') ||
@@ -109,12 +110,58 @@ int CheckBoard(char board[9])
   return 0;
 }
 
-void ComputerMove()
+void ComputerMove(char board[9], char playChar)
 {
-  printf("Computer goes first.\n");
+  srand(time(0));
+
+  printf("Computer plays:\n");
+
+  int boardEmpty = 1;
+  int moveLocation;
+  int possibleMoveLocations[9];
+  int claimedTiles[9];
+  int pClaimedTiles[9];
+
+  if (boardEmpty)
+  {
+    for (int i = 0; i < 9; i++)
+    {
+      if (board[i] != ' ')
+      {
+        boardEmpty = !boardEmpty;
+        break;
+      }
+    }
+  }
+
+  if (boardEmpty)
+  {
+    moveLocation = rand() % 9;
+    board[moveLocation] = playChar;
+    return;
+  }
+
+  // look for own pieces
+  for (int i = 0; i < 9; i++)
+  {
+    if (board[i] == playChar )
+    {
+
+    }
+  }
+  // look for opponents pieces
+
+
+
 }
 
-void PlayerMove()
+void PlayerMove(char board[9], char playChar)
 {
-  printf("Player goes first.\n");
+  int moveLocation;
+  printf("Where to place move? [1, ... 9]\n");
+  if (scanf("%d", &moveLocation) != 1) {
+    printf("Error reading input.\n");
+    return;
+  }
+  board[moveLocation-1] = playChar;
 }
